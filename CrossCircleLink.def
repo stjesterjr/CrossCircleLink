@@ -4,3 +4,4 @@ EXPORTS
     acrxGetApiVersion PRIVATE
     test_function PRIVATE
     drawLine PRIVATE
+    changeLineColorByID PRIVATE
