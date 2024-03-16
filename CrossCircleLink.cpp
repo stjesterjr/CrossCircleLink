@@ -4,35 +4,6 @@
 #include "geline2d.h" // for drawLine
 #include "dbents.h" //for AcDbLine
 
-// Simple acrxEntryPoint code. Normally intialization and cleanup
-// (such as registering and removing commands) should be done here.
-//
-extern "C" AcRx::AppRetCode
-acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
-{
-    switch (msg) {
-    case AcRx::kInitAppMsg:
-        // Allow application to be unloaded
-        // Without this statement, AutoCAD will
-        // not allow the application to be unloaded
-        // except on AutoCAD exit.
-        //
-        acrxUnlockApplication(appId);
-        // Register application as MDI aware. 
-        // Without this statement, AutoCAD will
-        // switch to SDI mode when loading the
-        // application.
-        //
-        acrxRegisterAppMDIAware(appId);
-        acutPrintf(L"\nExample Application Loaded");
-        break;
-    case AcRx::kUnloadAppMsg:
-        acutPrintf(L"\nExample Application Unloaded");
-        break;
-    }
-    return AcRx::kRetOK;
-}
-
 AcRx::AppRetCode test_function() {
     auto p_app_serv_handler = acdbHostApplicationServices();
     AcDbHostApplicationServices* p_app_serv_ptr = p_app_serv_handler;
@@ -53,14 +24,14 @@ AcDbObjectId drawLine() {
 
     //Block pointer
     AcDbBlockTable* p_BlockTable;
-    
+
     //These two do the same
     //1
     //acdbHostApplicationServices()->workingDatabase()->getSymbolTable(p_BlockTable, AcDb::kForRead);
     //2
     AcDbHostApplicationServices* p_app_serv_handler = acdbHostApplicationServices();
-    AcDbDatabase*   p_db_handler = p_app_serv_handler->workingDatabase();
-                    p_db_handler->getSymbolTable(p_BlockTable, AcDb::OpenMode::kForRead);
+    AcDbDatabase* p_db_handler = p_app_serv_handler->workingDatabase();
+    p_db_handler->getSymbolTable(p_BlockTable, AcDb::OpenMode::kForRead);
 
     //Block table pointer
     AcDbBlockTableRecord* p_BlockTable_record;
@@ -81,7 +52,7 @@ AcDbObjectId drawLine() {
 
 Acad::ErrorStatus changeLineColorByID(AcDbObjectId object_id, Adesk::UInt16 new_color) {
 
-    
+
     AcDbEntity* entity;
     acdbOpenObject(entity, object_id, AcDb::OpenMode::kForWrite);
 
@@ -89,5 +60,36 @@ Acad::ErrorStatus changeLineColorByID(AcDbObjectId object_id, Adesk::UInt16 new_
     entity->close();
 
     return Acad::ErrorStatus::eOk;
-    
+
+}
+
+// Simple acrxEntryPoint code. Normally intialization and cleanup
+// (such as registering and removing commands) should be done here.
+extern "C" AcRx::AppRetCode
+acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
+{
+
+    acutPrintf(L"\EntryPoint call\n");
+    switch (msg) {
+    case AcRx::kInitAppMsg:
+        // Allow application to be unloaded
+        // Without this statement, AutoCAD will
+        // not allow the application to be unloaded
+        // except on AutoCAD exit.
+        //
+        acrxUnlockApplication(appId);
+        // Register application as MDI aware. 
+        // Without this statement, AutoCAD will
+        // switch to SDI mode when loading the
+        // application.
+        //
+        acrxRegisterAppMDIAware(appId);
+        acutPrintf(L"\Application Initilized\n");
+        drawLine();
+        break;
+    case AcRx::kUnloadAppMsg:
+        acutPrintf(L"\Application Unloaded\n");
+        break;
+    }
+    return AcRx::kRetOK;
 }
