@@ -59,8 +59,8 @@ AcDbObjectId drawLine() {
     //acdbHostApplicationServices()->workingDatabase()->getSymbolTable(p_BlockTable, AcDb::kForRead);
     //2
     AcDbHostApplicationServices* p_app_serv_handler = acdbHostApplicationServices();
-    AcDbDatabase* p_db_handler = p_app_serv_handler->workingDatabase();
-            p_db_handler->getSymbolTable(p_BlockTable, AcDb::OpenMode::kForRead);
+    AcDbDatabase*   p_db_handler = p_app_serv_handler->workingDatabase();
+                    p_db_handler->getSymbolTable(p_BlockTable, AcDb::OpenMode::kForRead);
 
     //Block table pointer
     AcDbBlockTableRecord* p_BlockTable_record;
