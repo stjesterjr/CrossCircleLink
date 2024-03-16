@@ -48,15 +48,15 @@ AcDbObjectId drawLine() {
     AcGePoint3d line_start{ 0.0, 0.0, 0.0 };
     AcGePoint3d line_end{ 10.0,10.0, 10.0 };
 
-    //New line
-    auto p_line = new AcDbLine(line_start, line_end);
+    //New lineB
+    AcDbLine* p_line = new AcDbLine(line_start, line_end);
 
     //Block pointer
     AcDbBlockTable* p_BlockTable;
     
     //These two do the same
     //1
-    acdbHostApplicationServices()->workingDatabase()->getSymbolTable(p_BlockTable, AcDb::kForRead);
+    //acdbHostApplicationServices()->workingDatabase()->getSymbolTable(p_BlockTable, AcDb::kForRead);
     //2
     AcDbHostApplicationServices* p_app_serv_handler = acdbHostApplicationServices();
     AcDbDatabase* p_db_handler = p_app_serv_handler->workingDatabase();

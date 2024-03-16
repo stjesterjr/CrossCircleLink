@@ -3,3 +3,4 @@ EXPORTS
     acrxEntryPoint PRIVATE
     acrxGetApiVersion PRIVATE
     test_function PRIVATE
+    drawLine PRIVATE
