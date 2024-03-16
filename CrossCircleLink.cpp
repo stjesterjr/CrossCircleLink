@@ -78,3 +78,16 @@ AcDbObjectId drawLine() {
 
     return lineId;
 }
+
+Acad::ErrorStatus changeLineColorByID(AcDbObjectId object_id, Adesk::UInt16 new_color) {
+
+    
+    AcDbEntity* entity;
+    acdbOpenObject(entity, object_id, AcDb::OpenMode::kForWrite);
+
+    entity->setColorIndex(new_color);
+    entity->close();
+
+    return Acad::ErrorStatus::eOk;
+    
+}
