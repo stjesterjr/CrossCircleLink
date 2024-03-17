@@ -3,6 +3,7 @@
 #include "dbapserv.h" //for acdbHostApplicationServices()
 #include "geline2d.h" // for drawLine
 #include "dbents.h" //for AcDbLine
+#include "aced.h"
 
 AcRx::AppRetCode test_function() {
     auto p_app_serv_handler = acdbHostApplicationServices();
@@ -50,6 +51,10 @@ AcDbObjectId drawLine() {
     return lineId;
 }
 
+void drawLineWrapper() {
+    drawLine();
+}
+
 Acad::ErrorStatus changeLineColorByID(AcDbObjectId object_id, Adesk::UInt16 new_color) {
 
 
@@ -69,7 +74,7 @@ extern "C" AcRx::AppRetCode
 acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
 {
 
-    acutPrintf(L"\EntryPoint call\n");
+    acutPrintf(L"EntryPoint call\n");
     switch (msg) {
     case AcRx::kInitAppMsg:
         // Allow application to be unloaded
@@ -84,11 +89,15 @@ acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
         // application.
         //
         acrxRegisterAppMDIAware(appId);
-        acutPrintf(L"\Application Initilized\n");
+        acedRegCmds->addCommand(L"ASDK",
+            L"DRAWLINE", L"—ƒ À»Õ»ﬂ", ACRX_CMD_MODAL, drawLineWrapper);
+
+        acutPrintf(L"Application Initilized\n");
         drawLine();
+        acutPrintf(L"Test line draw\n");
         break;
     case AcRx::kUnloadAppMsg:
-        acutPrintf(L"\Application Unloaded\n");
+        acutPrintf(L"Application Unloaded\n");
         break;
     }
     return AcRx::kRetOK;
