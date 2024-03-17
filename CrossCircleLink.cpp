@@ -51,7 +51,86 @@ AcDbObjectId drawLine() {
     return lineId;
 }
 
+
+
+int printdxf(struct resbuf* eb)
+{
+    enum type_dummy : short {
+        RTNONE = 0,
+        RTSTR = 2,
+        RT3DPOINT,
+        RTREAL,
+        RTSHORT,
+    };
+    short rt;
+
+    if (eb == NULL)
+        return RTNONE;
+    if ((eb->restype >= 0) && (eb->restype <= 9))
+        rt = RTSTR;
+    else if ((eb->restype >= 10) && (eb->restype <= 19))
+        rt = RT3DPOINT;
+    else if ((eb->restype >= 38) && (eb->restype <= 59))
+        rt = RTREAL;
+    else if ((eb->restype >= 60) && (eb->restype <= 79))
+        rt = RTSHORT;
+    else if ((eb->restype >= 210) && (eb->restype <= 239))
+        rt = RT3DPOINT;
+    else if (eb->restype < 0)
+        rt = eb->restype;
+    else
+        rt = RTNONE;
+
+
+    switch (rt) {
+    case RTSHORT:
+        acutPrintf(L"(%d . %d)\n", eb->restype,
+            eb->resval.rint);
+        break;
+    case RTREAL:
+        acutPrintf(L"(%d . %0.3f)\n", eb->restype,
+            eb->resval.rreal);
+        break;
+    case RTSTR:
+        acutPrintf(L"(%d . \"%s\")\n", eb->restype,
+            eb->resval.rstring);
+        break;
+    case RT3DPOINT:
+        acutPrintf(L"(%d . %0.3f %0.3f %0.3f)\n",
+            eb->restype,
+            eb->resval.rpoint[X], eb->resval.rpoint[Y],
+            eb->resval.rpoint[Z]);
+        break;
+    case RTNONE:
+        acutPrintf(L"(%d . Unknown type)\n", eb->restype);
+        break;
+    case -1:
+    case -2:
+        // First block entity
+        acutPrintf(L"(%d . <Entity name: %8lx>)\n",
+            eb->restype, eb->resval.rlname[0]);
+    }
+    return eb->restype;
+}
+
 void drawLineWrapper() {
+    //ads_name ssname;
+
+    //if (acedSSGet(L".", NULL, NULL, NULL, ssname))
+    //    acutPrintf(L"SELECTING SUCCESS\n");
+    //else {
+    //    acutPrintf(L"SLECTING CANCELED\n");
+    //}
+
+    ads_name entres;
+    ads_point ptres;
+    acedEntSel(L"CYSTOM SELECT", entres, ptres);
+
+
+    for (auto it = acdbEntGet(entres); it != NULL; it = it->rbnext) {
+        printdxf(it);
+    }
+    
     drawLine();
 }
 
@@ -90,11 +169,14 @@ acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
         //
         acrxRegisterAppMDIAware(appId);
         acedRegCmds->addCommand(L"ASDK",
-            L"DRAWLINE", L"—ƒ À»Õ»ﬂ", ACRX_CMD_MODAL, drawLineWrapper);
+            L"DRAWLINE", L"¿—ƒ À»Õ»ﬂ", ACRX_CMD_MODAL, drawLineWrapper);
 
         acutPrintf(L"Application Initilized\n");
         drawLine();
         acutPrintf(L"Test line draw\n");
+
+        
+
         break;
     case AcRx::kUnloadAppMsg:
         acutPrintf(L"Application Unloaded\n");
