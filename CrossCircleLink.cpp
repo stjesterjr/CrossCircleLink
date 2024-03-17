@@ -51,7 +51,37 @@ AcDbObjectId drawLine() {
     return lineId;
 }
 
+AcDbObjectId drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
+    //New lineB
+    AcDbLine* p_line = new AcDbLine(line_start, line_end);
 
+    //Block pointer
+    AcDbBlockTable* p_BlockTable;
+
+    //These two do the same
+    //1
+    //acdbHostApplicationServices()->workingDatabase()->getSymbolTable(p_BlockTable, AcDb::kForRead);
+    //2
+    AcDbHostApplicationServices* p_app_serv_handler = acdbHostApplicationServices();
+    AcDbDatabase* p_db_handler = p_app_serv_handler->workingDatabase();
+    p_db_handler->getSymbolTable(p_BlockTable, AcDb::OpenMode::kForRead);
+
+    //Block table pointer
+    AcDbBlockTableRecord* p_BlockTable_record;
+
+    //
+    p_BlockTable->getAt(L"*Model_Space", p_BlockTable_record, AcDb::OpenMode::kForWrite);
+    p_BlockTable->close();
+    //
+    AcDbObjectId lineId;
+    p_BlockTable_record->appendAcDbEntity(lineId, p_line);
+
+    //Cleaning
+    p_BlockTable_record->close();
+    p_line->close();
+
+    return lineId;
+}
 
 int printdxf(struct resbuf* eb)
 {
@@ -113,26 +143,7 @@ int printdxf(struct resbuf* eb)
     return eb->restype;
 }
 
-void drawLineWrapper() {
-    //ads_name ssname;
 
-    //if (acedSSGet(L".", NULL, NULL, NULL, ssname))
-    //    acutPrintf(L"SELECTING SUCCESS\n");
-    //else {
-    //    acutPrintf(L"SLECTING CANCELED\n");
-    //}
-
-    ads_name entres;
-    ads_point ptres;
-    acedEntSel(L"CYSTOM SELECT", entres, ptres);
-
-
-    for (auto it = acdbEntGet(entres); it != NULL; it = it->rbnext) {
-        printdxf(it);
-    }
-    
-    drawLine();
-}
 
 Acad::ErrorStatus changeLineColorByID(AcDbObjectId object_id, Adesk::UInt16 new_color) {
 
@@ -145,6 +156,33 @@ Acad::ErrorStatus changeLineColorByID(AcDbObjectId object_id, Adesk::UInt16 new_
 
     return Acad::ErrorStatus::eOk;
 
+}
+
+Acad::ErrorStatus drawCircleLink() {
+    ads_name A_name;
+    ads_name B_name;
+    ads_point A_name_point;
+    ads_point B_name_point;
+    acedEntSel(L"Select first", A_name, A_name_point);
+    acedEntSel(L"Select second", B_name, B_name_point);
+
+    AcDbObjectId A_id;
+    AcDbObjectId B_id;
+    acdbGetObjectId(A_id, A_name);
+    acdbGetObjectId(B_id, B_name);
+
+    AcDbCircle* A_entity;
+    AcDbCircle* B_entity;
+    acdbOpenObject(A_entity, A_id, AcDb::OpenMode::kForRead);
+    acdbOpenObject(B_entity, B_id, AcDb::OpenMode::kForRead);
+
+    drawLineArg(A_entity->center(), B_entity->center());
+}
+
+void drawLineWrapper() {
+
+    drawCircleLink();
+    drawLine();
 }
 
 // Simple acrxEntryPoint code. Normally intialization and cleanup
@@ -174,7 +212,6 @@ acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
         acutPrintf(L"Application Initilized\n");
         drawLine();
         acutPrintf(L"Test line draw\n");
-
         
 
         break;
