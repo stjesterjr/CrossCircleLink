@@ -51,7 +51,7 @@ AcDbObjectId drawLine() {
     return lineId;
 }
 
-AcDbObjectId drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
+AcDbLine* drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
     //New lineB
     AcDbLine* p_line = new AcDbLine(line_start, line_end);
 
@@ -80,7 +80,7 @@ AcDbObjectId drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
     p_BlockTable_record->close();
     p_line->close();
 
-    return lineId;
+    return p_line;
 }
 
 int printdxf(struct resbuf* eb)
@@ -171,12 +171,17 @@ Acad::ErrorStatus drawCircleLink() {
     acdbGetObjectId(A_id, A_name);
     acdbGetObjectId(B_id, B_name);
 
-    AcDbCircle* A_entity;
-    AcDbCircle* B_entity;
-    acdbOpenObject(A_entity, A_id, AcDb::OpenMode::kForRead);
-    acdbOpenObject(B_entity, B_id, AcDb::OpenMode::kForRead);
+    AcDbCircle* A_circle;
+    AcDbCircle* B_circle;
+    acdbOpenObject(A_circle, A_id, AcDb::OpenMode::kForWrite);
+    acdbOpenObject(B_circle, B_id, AcDb::OpenMode::kForWrite);
 
-    drawLineArg(A_entity->center(), B_entity->center());
+    auto line = drawLineArg(A_circle->center(), B_circle->center());
+    A_circle->addPersistentReactor(line->id());
+    B_circle->addPersistentReactor(line->id());
+    
+    A_circle->close();
+    B_circle->close();
 }
 
 void drawLineWrapper() {
@@ -185,36 +190,19 @@ void drawLineWrapper() {
     drawLine();
 }
 
-// Simple acrxEntryPoint code. Normally intialization and cleanup
-// (such as registering and removing commands) should be done here.
+
 extern "C" AcRx::AppRetCode
 acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
 {
-
-    acutPrintf(L"EntryPoint call\n");
     switch (msg) {
     case AcRx::kInitAppMsg:
-        // Allow application to be unloaded
-        // Without this statement, AutoCAD will
-        // not allow the application to be unloaded
-        // except on AutoCAD exit.
-        //
         acrxUnlockApplication(appId);
-        // Register application as MDI aware. 
-        // Without this statement, AutoCAD will
-        // switch to SDI mode when loading the
-        // application.
-        //
         acrxRegisterAppMDIAware(appId);
         acedRegCmds->addCommand(L"ASDK",
             L"DRAWLINE", L"¿—ƒ À»Õ»ﬂ", ACRX_CMD_MODAL, drawLineWrapper);
-
         acutPrintf(L"Application Initilized\n");
-        drawLine();
-        acutPrintf(L"Test line draw\n");
-        
-
         break;
+
     case AcRx::kUnloadAppMsg:
         acutPrintf(L"Application Unloaded\n");
         break;
