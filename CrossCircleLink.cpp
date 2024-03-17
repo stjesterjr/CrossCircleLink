@@ -60,7 +60,7 @@ int printdxf(struct resbuf* eb)
         RTSTR = 2,
         RT3DPOINT,
         RTREAL,
-        RTSHORT,
+        RTSHORT
     };
     short rt;
 
