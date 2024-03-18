@@ -192,7 +192,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AcDbCrossCircleLink.cpp" />
-    <ClCompile Include="CrossCircleLink.cpp" />
+    <ClCompile Include="CrossCircleLinkApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossCircleLink.def" />

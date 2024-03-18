@@ -1,7 +1,9 @@
 #pragma once
-#include "dbxHeaders.h"
+#include "dbmain.h"
+#include "geassign.h"
+#include "dbents.h"
 
-#ifdef CROSSCIRCLE_MODULE
+#ifdef CROSSCIRCLELINK_MODULE
 #define DLLIMPEXP __declspec(dllexport)
 #else
 #define DLLIMPEXP
@@ -25,12 +27,12 @@ public:
 /////////////////////////////////////////////////////////
 // Data Members access functions
 
-    AcGePoint3d link_start() const;
+    AcGePoint3d link_start() const { return m_link_start; };
     Acad::ErrorStatus setStart(AcGePoint3d in) {
         m_link_start = in;
         return Acad::eOk;
     }
-    AcGePoint3d link_end() const;
+    AcGePoint3d link_end() const { return m_link_end; };
     Acad::ErrorStatus setEnd(AcGePoint3d in) {
         m_link_end = in;
         return Acad::eOk;
@@ -52,7 +54,6 @@ public:
 //- Graphics protocol
 protected:
     virtual Adesk::Boolean subWorldDraw(AcGiWorldDraw* mode) override;
-    virtual Adesk::UInt32 subSetAttributes(AcGiDrawableTraits* traits) override;
     virtual Acad::ErrorStatus subTransformBy(const AcGeMatrix3d& xform) override;
     virtual Acad::ErrorStatus subExplode(AcDbVoidPtrArray& entitySet) const override;
     
