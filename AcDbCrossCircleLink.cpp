@@ -10,10 +10,15 @@ ACRX_DXF_DEFINE_MEMBERS(AcDbCrossCircleLink, AcDbEntity, AcDb::kDHL_CURRENT, \
 AcDbCrossCircleLink::AcDbCrossCircleLink() : AcDbEntity() {
     setStart({ 0, 0, 0 });
     setEnd({ 10, 10, 10 });
+    m_line.setStartPoint(m_link_start);
+    m_line.setEndPoint(m_link_end);
+    m_line.setThickness(5);
+    acutPrintf(L"\nConstructor\n");
 }
 
 AcDbCrossCircleLink::~AcDbCrossCircleLink() {
 
+    acutPrintf(L"\nDestructor\n");
 }
 
 
@@ -158,15 +163,18 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* pFiler) {
 //AcDbEntity
 
 //DRAW SUB WORLD
-Adesk::Boolean AcDbCrossCircleLink::subWorldDraw(AcGiWorldDraw* pmode) {
+Adesk::Boolean AcDbCrossCircleLink::subWorldDraw(AcGiWorldDraw* worldDraw) {
     assertReadEnabled();
-
-    AcGePoint3d ptArray[2];
+    AcGePoint3d ptArray[3];
     ptArray[0] = m_link_start;
     ptArray[1] = m_link_end;
-    pmode->subEntityTraits().setSelectionMarker(1);
-    pmode->geometry().polyline(2, ptArray);
+    ptArray[2] = { 0,0,0 };
 
+
+    worldDraw->subEntityTraits().setSelectionMarker(1);
+    worldDraw->subEntityTraits().setColor(1);
+
+    worldDraw->geometry().circle({ 1,0,0 }, { 1,0,0 }, { 0,0,1 });
     return (Adesk::kTrue);
 }
 

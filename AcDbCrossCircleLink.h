@@ -3,13 +3,8 @@
 #include "geassign.h"
 #include "dbents.h"
 
-#ifdef CROSSCIRCLELINK_MODULE
-#define DLLIMPEXP __declspec(dllexport)
-#else
-#define DLLIMPEXP
-#endif
 
-class DLLIMPEXP AcDbCrossCircleLink : public AcDbEntity
+class AcDbCrossCircleLink : public AcDbEntity
 {
 public:
 // ACRX_DECLARE_MEMBERS macro
@@ -91,8 +86,5 @@ private:
 // Data Members
     AcGePoint3d m_link_start;
     AcGePoint3d m_link_end;
+    AcDbLine m_line;
 };
-
-#ifdef CROSSCIRCLE_MODULE
-ACDB_REGISTER_OBJECT_ENTRY_AUTO(AcDbCrossCircleLink);
-#endif

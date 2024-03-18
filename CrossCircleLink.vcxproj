@@ -192,13 +192,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AcDbCrossCircleLink.cpp" />
-    <ClCompile Include="CrossCircleLinkApp.cpp" />
+    <ClCompile Include="CrossCircleLink.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="CrossCircleLink.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AcDbCrossCircle.h" />
     <ClInclude Include="AcDbCrossCircleLink.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

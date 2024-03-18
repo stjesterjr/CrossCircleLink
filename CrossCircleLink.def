@@ -1,5 +1,8 @@
 LIBRARY "CrossCircleLink.arx"
 EXPORTS
     acrxEntryPoint PRIVATE
-    drawCircleLink PRIVATE
+    acrxGetApiVersion PRIVATE
     Command PRIVATE
+    drawCircleLink PRIVATE
+    addToDb PRIVATE
+    drawLineArg PRIVATE
