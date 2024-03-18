@@ -2,8 +2,5 @@ LIBRARY "CrossCircleLink.arx"
 EXPORTS
     acrxEntryPoint PRIVATE
     acrxGetApiVersion PRIVATE
-    test_function PRIVATE
-    drawLine PRIVATE
     drawCircleLink PRIVATE
-    drawLineWrapper PRIVATE
-    changeLineColorByID PRIVATE
+    drawLineCommand PRIVATE
