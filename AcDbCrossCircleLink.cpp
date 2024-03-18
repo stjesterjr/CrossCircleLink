@@ -110,7 +110,7 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfOutFields(AcDbDxfFiler* filer) const
 Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* filer) {
     assertWriteEnabled();
 
-    Acad::ErrorStatus result;
+    Acad::ErrorStatus result = Acad::eOk;
     resbuf buffer;
 
     if((AcDbEntity::dxfInFields(filer) != Acad::eOk || !filer->atSubclassData(L"AcDbCrossCircleLink")))
