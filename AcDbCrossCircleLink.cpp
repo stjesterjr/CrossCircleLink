@@ -165,6 +165,8 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* pFiler) {
 //DRAW SUB WORLD
 Adesk::Boolean AcDbCrossCircleLink::subWorldDraw(AcGiWorldDraw* worldDraw) {
     assertReadEnabled();
+    acutPrintf(L"subworld");
+
     AcGePoint3d ptArray[3];
     ptArray[0] = m_link_start;
     ptArray[1] = m_link_end;
