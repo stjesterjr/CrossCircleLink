@@ -16,6 +16,8 @@ AcDbCrossCircleLink::~AcDbCrossCircleLink() {
 
 }
 
+
+
 // Dwg
 // OUT
 Acad::ErrorStatus AcDbCrossCircleLink::dwgOutFields(AcDbDwgFiler* pFiler) const
@@ -164,7 +166,6 @@ Adesk::Boolean AcDbCrossCircleLink::subWorldDraw(AcGiWorldDraw* pmode) {
     ptArray[1] = m_link_end;
     pmode->subEntityTraits().setSelectionMarker(1);
     pmode->geometry().polyline(2, ptArray);
-
 
     return (Adesk::kTrue);
 }

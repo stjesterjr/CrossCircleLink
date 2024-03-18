@@ -102,7 +102,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\NRX\CrossCircle\CrossCircle;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -111,8 +111,8 @@
       <EnableUAC>false</EnableUAC>
       <OutputFile>$(SolutionDir)build\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)build\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;CrossCircle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\bin-x64\Release NCAD;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>CrossCircleLink.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -126,7 +126,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\NRX\CrossCircle\CrossCircle;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -137,8 +137,8 @@
       <EnableUAC>false</EnableUAC>
       <OutputFile>$(SolutionDir)build\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)build\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;CrossCircle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\bin-x64\Release NCAD;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>CrossCircleLink.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -150,7 +150,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\NRX\CrossCircle\CrossCircle;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -159,8 +159,8 @@
       <EnableUAC>false</EnableUAC>
       <OutputFile>$(SolutionDir)build\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)build\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;CrossCircle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\bin-x64\Release NCAD;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>CrossCircleLink.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -174,7 +174,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\NRX\CrossCircle\CrossCircle;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc-x64;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -185,8 +185,8 @@
       <EnableUAC>false</EnableUAC>
       <OutputFile>$(SolutionDir)build\$(Platform)\$(Configuration)\$(TargetName)$(TargetExt)</OutputFile>
       <ImportLibrary>$(SolutionDir)build\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>accore.lib;ac1st24.lib;AcPal.lib;rxapi.lib;acdb24.lib;acad.lib;acge24.lib;acgiapi.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;CrossCircle.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NC_SDK_RU_23.1.6411.4419.6511\samples\bin-x64\Release NCAD;C:\Autodesk\ObjectARX_for_AutoCAD_2022_Win_64bit_dlm\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ModuleDefinitionFile>CrossCircleLink.def</ModuleDefinitionFile>
     </Link>
   </ItemDefinitionGroup>
@@ -198,6 +198,7 @@
     <None Include="CrossCircleLink.def" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AcDbCrossCircle.h" />
     <ClInclude Include="AcDbCrossCircleLink.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

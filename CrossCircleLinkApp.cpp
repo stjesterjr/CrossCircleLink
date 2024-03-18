@@ -4,7 +4,8 @@
 #include "geline2d.h" // for drawLine
 #include "dbents.h" //for AcDbLine
 #include "aced.h"
-
+#include "AcDbCrossCircle.h"
+#include "AcDbCrossCircleLink.h"
 
 AcDbLine* drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
     //New lineB
@@ -13,10 +14,6 @@ AcDbLine* drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
     //Block pointer
     AcDbBlockTable* p_BlockTable;
 
-    //These two do the same
-    //1
-    //acdbHostApplicationServices()->workingDatabase()->getSymbolTable(p_BlockTable, AcDb::kForRead);
-    //2
     AcDbHostApplicationServices* p_app_serv_handler = acdbHostApplicationServices();
     AcDbDatabase* p_db_handler = p_app_serv_handler->workingDatabase();
     p_db_handler->getSymbolTable(p_BlockTable, AcDb::OpenMode::kForRead);
@@ -38,6 +35,27 @@ AcDbLine* drawLineArg(AcGePoint3d line_start, AcGePoint3d line_end) {
     return p_line;
 }
 
+Acad::ErrorStatus addToDb(AcDbEntity* p_entity) {
+
+    AcDbHostApplicationServices* p_app_serv_handler = acdbHostApplicationServices();
+    AcDbDatabase* p_db_handler = p_app_serv_handler->workingDatabase();
+
+    AcDbBlockTable* p_blockTable;
+    p_db_handler->getSymbolTable(p_blockTable, AcDb::OpenMode::kForRead);
+
+
+    AcDbBlockTableRecord* p_block_table_record;
+    p_blockTable->getAt(L"*Model_Space", p_block_table_record, AcDb::OpenMode::kForWrite);
+    p_blockTable->close();
+
+
+    AcDbObjectId ID;
+    p_block_table_record->appendAcDbEntity(ID, p_entity);
+    p_block_table_record->close();
+
+    return Acad::eOk;
+}
+
 AcRx::AppRetCode drawCircleLink() {
     ads_name A_name;
     ads_name B_name;
@@ -51,25 +69,27 @@ AcRx::AppRetCode drawCircleLink() {
     acdbGetObjectId(A_id, A_name);
     acdbGetObjectId(B_id, B_name);
 
-    AcDbCircle* A_circle;
-    AcDbCircle* B_circle;
-    acdbOpenObject(A_circle, A_id, AcDb::OpenMode::kForWrite);
-    acdbOpenObject(B_circle, B_id, AcDb::OpenMode::kForWrite);
+    AcDbCrossCircle* A_circle;
+    AcDbCrossCircle* B_circle;
+    acdbOpenObject(A_circle, A_id, AcDb::OpenMode::kForRead);
+    acdbOpenObject(B_circle, B_id, AcDb::OpenMode::kForRead);
 
-    AcDbLine* line = drawLineArg(A_circle->center(), B_circle->center());
-    A_circle->addPersistentReactor(line->id());
-    B_circle->addPersistentReactor(line->id());
+    AcDbCrossCircleLink* p_link = new AcDbCrossCircleLink;
+    p_link->setStart(A_circle->center());
+    p_link->setEnd(B_circle->center());
+
     
     A_circle->close();
     B_circle->close();
 
-    return AcRx::kRetOK;
+    if (addToDb(p_link) == Acad::eOk)
+        return AcRx::kRetOK;
+    else
+        return AcRx::kRetError;
 }
 
-void drawLineCommand() {
-
+void Command() {
     drawCircleLink();
-    drawLineArg({ 0.0,0.0,0.0 }, {1.0,3.0,0.0});
 }
 
 
@@ -80,8 +100,8 @@ acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
     case AcRx::kInitAppMsg:
         acrxUnlockApplication(appId);
         acrxRegisterAppMDIAware(appId);
-        acedRegCmds->addCommand(L"ASDK",
-            L"DRAWLINE", L"ÀÑÄÊËÈÍÈß", ACRX_CMD_MODAL, drawLineCommand);
+        acedRegCmds->addCommand(L"CrCiLink",
+            L"CrCiLink", L"ÊðÊðÑâÿçü", ACRX_CMD_MODAL, Command);
         acutPrintf(L"Application Initilized\n");
         break;
 

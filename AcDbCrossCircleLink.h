@@ -39,13 +39,10 @@ public:
     }
 
 //----- AcDbObject protocols
-
-    virtual Acad::ErrorStatus subGetClassID(CLSID* pClsid) const override;
-
-//- Dwg Filing protocol
+// Dwg
     virtual Acad::ErrorStatus dwgOutFields(AcDbDwgFiler* pFiler) const override;
     virtual Acad::ErrorStatus dwgInFields(AcDbDwgFiler* pFiler) override;
-//- Dxf Filing protocol
+// Dxf
     virtual Acad::ErrorStatus dxfOutFields(AcDbDxfFiler* pFiler) const override;
     virtual Acad::ErrorStatus dxfInFields(AcDbDxfFiler* pFiler) override;
 
