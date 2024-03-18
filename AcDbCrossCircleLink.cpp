@@ -67,7 +67,8 @@ Acad::ErrorStatus AcDbCrossCircleLink::dwgInFields(AcDbDwgFiler* pFiler)
     return (pFiler->filerStatus());
 }
 
-//- Dxf OUT
+// Dxf
+//OUT
 Acad::ErrorStatus AcDbCrossCircleLink::dxfOutFields(AcDbDxfFiler* pFiler) const
 {
     assertReadEnabled();
@@ -99,7 +100,7 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfOutFields(AcDbDxfFiler* pFiler) const
 
     return (pFiler->filerStatus());
 }
-
+//IN
 Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* pFiler) {
     assertWriteEnabled();
 
@@ -149,4 +150,150 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* pFiler) {
 
     if (result != Acad::eEndOfFile)
         return Acad::eInvalidResBuf;
+}
+
+
+//AcDbEntity
+
+//DRAW SUB WORLD
+Adesk::Boolean AcDbCrossCircleLink::subWorldDraw(AcGiWorldDraw* pmode) {
+    assertReadEnabled();
+
+    AcGePoint3d ptArray[2];
+    ptArray[0] = m_link_start;
+    ptArray[1] = m_link_end;
+    pmode->subEntityTraits().setSelectionMarker(1);
+    pmode->geometry().polyline(2, ptArray);
+
+
+    return (Adesk::kTrue);
+}
+
+Acad::ErrorStatus
+AcDbCrossCircleLink::subGetOsnapPoints(
+    AcDb::OsnapMode       osnapMode,
+    Adesk::GsMarker       gsSelectionMark,
+    const AcGePoint3d& pickPoint,
+    const AcGePoint3d& lastPoint,
+    const AcGeMatrix3d& viewXform,
+    AcGePoint3dArray& snapPoints,
+    AcDbIntArray& geomIds) const
+{
+    assertReadEnabled();
+    return (AcDbEntity::subGetOsnapPoints(osnapMode, gsSelectionMark, pickPoint, lastPoint, viewXform, snapPoints, geomIds));
+}
+
+Acad::ErrorStatus AcDbCrossCircleLink::subGetGripPoints(
+    AcGePoint3dArray& gripPoints,
+    AcDbIntArray& osnapModes,
+    AcDbIntArray& geomIds) const
+{
+    assertReadEnabled();
+
+
+    AcGePoint3dArray aCrCiLink;
+    aCrCiLink.setLogicalLength(3);
+
+    aCrCiLink[0] = m_link_start;
+
+    aCrCiLink[1] = {
+        (m_link_start.x + m_link_end.x) / 2,
+        (m_link_start.y + m_link_end.y) / 2,
+        (m_link_start.z + m_link_end.z) / 2 
+    };
+
+    aCrCiLink[2] = m_link_end;
+
+    gripPoints.append(aCrCiLink);
+    return Acad::eOk;
+}
+
+Acad::ErrorStatus AcDbCrossCircleLink::subMoveGripPointsAt(
+    const AcDbIntArray& indices,
+    const AcGeVector3d& offset)
+{
+
+    if (indices.length() == 0 || offset.isZeroLength())
+        return Acad::eOk;
+
+    assertWriteEnabled();
+
+    for (int i = 0; i < indices.length(); i++)
+    {
+        switch (indices[i])
+        {
+        case 0: // 
+            this->setStart(m_link_start + offset);
+            break;
+        case 1:
+            this->setStart(m_link_start + offset);
+            this->setEnd(m_link_end + offset);
+            break;
+        case 2: // центр
+            this->setEnd(m_link_end + offset);
+            break;
+        }
+    }
+
+    return Acad::eOk;
+}
+
+Acad::ErrorStatus AcDbCrossCircleLink::subGetGripPoints(
+    AcDbGripDataPtrArray& grips, const double curViewUnitSize, const int gripSize,
+    const AcGeVector3d& curViewDir, const int bitflags) const
+{
+    assertReadEnabled();
+
+    return (AcDbEntity::subGetGripPoints(grips, curViewUnitSize, gripSize, curViewDir, bitflags));
+}
+
+Acad::ErrorStatus AcDbCrossCircleLink::subMoveGripPointsAt(
+    const AcDbVoidPtrArray& gripAppData, const AcGeVector3d& offset,
+    const int bitflags)
+{
+    assertWriteEnabled();
+
+    return (AcDbEntity::subMoveGripPointsAt(gripAppData, offset, bitflags));
+}
+
+Acad::ErrorStatus
+AcDbCrossCircleLink::subTransformBy(const AcGeMatrix3d& xform) {
+    assertWriteEnabled();
+
+    m_link_start.transformBy(xform);
+    m_link_end.transformBy(xform);
+
+    return Acad::eOk;
+}
+
+Acad::ErrorStatus
+AcDbCrossCircleLink::subExplode(AcDbVoidPtrArray& entitySet) const
+{
+    assertReadEnabled();
+
+    Acad::ErrorStatus result = Acad::eOk;
+
+    AcGePoint3d center = {
+        (m_link_start.x + m_link_end.x) / 2,
+        (m_link_start.x + m_link_end.x) / 2,
+        (m_link_start.x + m_link_end.x) / 2
+    };
+
+    // Первый отрезок
+    AcDbLine* line;
+
+    line = new AcDbLine();
+    line->setStartPoint(m_link_start);
+    line->setEndPoint(center);
+
+    entitySet.append(line);
+
+    // Второй отрезок
+    line = new AcDbLine();
+    line->setStartPoint(center);
+    line->setEndPoint(m_link_end);
+
+    entitySet.append(line);
+
+    return result;
 }

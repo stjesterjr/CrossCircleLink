@@ -26,9 +26,15 @@ public:
 // Data Members access functions
 
     AcGePoint3d link_start() const;
-    Acad::ErrorStatus setStart(AcGePoint3d pIns);
+    Acad::ErrorStatus setStart(AcGePoint3d in) {
+        m_link_start = in;
+        return Acad::eOk;
+    }
     AcGePoint3d link_end() const;
-    Acad::ErrorStatus setEnd(AcGePoint3d pIns);
+    Acad::ErrorStatus setEnd(AcGePoint3d in) {
+        m_link_end = in;
+        return Acad::eOk;
+    }
 
 //----- AcDbObject protocols
 
@@ -60,16 +66,6 @@ public:
         const AcGeMatrix3d& viewXform,
         AcGePoint3dArray& snapPoints,
         AcDbIntArray& geomIds) const override;
-    
-    virtual Acad::ErrorStatus subGetOsnapPoints(
-        AcDb::OsnapMode osnapMode,
-        Adesk::GsMarker gsSelectionMark,
-        const AcGePoint3d& pickPoint,
-        const AcGePoint3d& lastPoint,
-        const AcGeMatrix3d& viewXform,
-        AcGePoint3dArray& snapPoints,
-        AcDbIntArray& geomIds,
-        const AcGeMatrix3d& insertionMat) const override;
 
 //- Grip points protocol
     virtual Acad::ErrorStatus subGetGripPoints(
