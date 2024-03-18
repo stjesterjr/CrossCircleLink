@@ -4,15 +4,8 @@
 //-----------------------------------------------------------------------------
 Adesk::UInt32 AcDbCrossCircleLink::m_version = 1;
 
-ACRX_DXF_DEFINE_MEMBERS(
-    AcDbCrossCircleLink, AcDbEntity,
-    AcDb::kDHL_CURRENT, AcDb::kMReleaseCurrent,
-    AcDbProxyEntity::kNoOperation, ACDBCROSSCIRCLE,
-    CROSSCIRCLEAPP
-    | Product Desc : blah-blah-blah
-    | Company : boring,inc.
-    | WEB Address : localhost
-)
+ACRX_DXF_DEFINE_MEMBERS(AcDbCrossCircleLink, AcDbEntity, AcDb::kDHL_CURRENT, \
+    AcDb::kMReleaseCurrent, 0, ACDBCROSSCIRCLELINK, L"CrossCircleLink")
 
 AcDbCrossCircleLink::AcDbCrossCircleLink() : AcDbEntity() {
     setStart({ 0, 0, 0 });
@@ -75,58 +68,58 @@ Acad::ErrorStatus AcDbCrossCircleLink::dwgInFields(AcDbDwgFiler* pFiler)
 }
 
 //- Dxf OUT
-Acad::ErrorStatus AcDbCrossCircleLink::dxfOutFields(AcDbDxfFiler* filer) const
+Acad::ErrorStatus AcDbCrossCircleLink::dxfOutFields(AcDbDxfFiler* pFiler) const
 {
     assertReadEnabled();
     Acad::ErrorStatus result = Acad::eOk;
 
     //PArent
-    result = AcDbEntity::dxfOutFields(filer);
+    result = AcDbEntity::dxfOutFields(pFiler);
     if (result != Acad::eOk)
         return (result);
 
     //Class voodoo
-    result = filer->writeItem(AcDb::kDxfSubclass, "AcDbCrossCircleLink");
+    result = pFiler->writeItem(AcDb::kDxfSubclass, "AcDbCrossCircleLink");
     if (result != Acad::eOk)
         return (result);
 
     //VERSION
-    result = filer->writeUInt32(AcDb::kDxfInt32, AcDbCrossCircleLink::m_version);
+    result = pFiler->writeUInt32(AcDb::kDxfInt32, AcDbCrossCircleLink::m_version);
     if (result != Acad::eOk)
         return (result);
 
     //MEMBERS
-    result = filer->writePoint3d(AcDb::kDxfXCoord, m_link_start);
+    result = pFiler->writePoint3d(AcDb::kDxfXCoord, m_link_start);
     if (result != Acad::eOk)
         return result;
 
-    result = filer->writePoint3d(AcDb::kDxfXCoord, m_link_end);
+    result = pFiler->writePoint3d(AcDb::kDxfXCoord, m_link_end);
     if (result != Acad::eOk)
         return result;
 
-    return (filer->filerStatus());
+    return (pFiler->filerStatus());
 }
 
-Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* filer) {
+Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* pFiler) {
     assertWriteEnabled();
 
     Acad::ErrorStatus result = Acad::eOk;
     resbuf buffer;
 
-    if((AcDbEntity::dxfInFields(filer) != Acad::eOk || !filer->atSubclassData(L"AcDbCrossCircleLink")))
-        return filer->filerStatus();
+    if((AcDbEntity::dxfInFields(pFiler) != Acad::eOk || !pFiler->atSubclassData(L"AcDbCrossCircleLink")))
+        return pFiler->filerStatus();
 
     //VERSion
     Adesk::UInt32 version;
-    filer->readItem(&buffer);
+    pFiler->readItem(&buffer);
     if (buffer.restype != AcDb::kDxfInt32)
     {
-        filer->pushBackItem();
-        filer->setError(
+        pFiler->pushBackItem();
+        pFiler->setError(
             Acad::eInvalidDxfCode,
             L"\nError: expected group code %d (version)",
             AcDb::kDxfInt32);
-        return filer->filerStatus();
+        return pFiler->filerStatus();
     }
 
 
@@ -138,7 +131,7 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* filer) {
     AcGePoint3d link_start;
     AcGePoint3d link_end;
 
-    while ((result == Acad::eOk) && ((result = filer->readResBuf(&buffer)) == Acad::eOk)) {
+    while ((result == Acad::eOk) && ((result = pFiler->readResBuf(&buffer)) == Acad::eOk)) {
         switch (buffer.restype)
         {
         case AcDb::kDxfXCoord:
@@ -148,7 +141,7 @@ Acad::ErrorStatus AcDbCrossCircleLink::dxfInFields(AcDbDxfFiler* filer) {
             m_link_end = asPnt3d(buffer.resval.rpoint);
             break;
         default:
-            filer->pushBackItem();
+            pFiler->pushBackItem();
             result = Acad::eEndOfFile;
             break;
         }
