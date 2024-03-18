@@ -1,13 +1,20 @@
 #pragma once
-#include <dbmain.h>
+#include "dbxHeaders.h"
 
-class AcDbCrossCircleLink : public AcDbEntity
+#ifdef CROSSCIRCLE_MODULE
+#define DLLIMPEXP __declspec(dllexport)
+#else
+#define DLLIMPEXP
+#endif
+
+class DLLIMPEXP AcDbCrossCircleLink : public AcDbEntity
 {
 public:
+// ACRX_DECLARE_MEMBERS macro
     ACRX_DECLARE_MEMBERS(AcDbCrossCircleLink);
 
 protected:
-        static Adesk::UInt32 kCurrentVersionNumber;
+    static Adesk::UInt32 m_version;
 
 public:
     AcDbCrossCircleLink();
@@ -30,7 +37,6 @@ public:
 //- Dwg Filing protocol
     virtual Acad::ErrorStatus dwgOutFields(AcDbDwgFiler* pFiler) const override;
     virtual Acad::ErrorStatus dwgInFields(AcDbDwgFiler* pFiler) override;
-
 //- Dxf Filing protocol
     virtual Acad::ErrorStatus dxfOutFields(AcDbDxfFiler* pFiler) const override;
     virtual Acad::ErrorStatus dxfInFields(AcDbDxfFiler* pFiler) override;
@@ -41,7 +47,6 @@ public:
 protected:
     virtual Adesk::Boolean subWorldDraw(AcGiWorldDraw* mode) override;
     virtual Adesk::UInt32 subSetAttributes(AcGiDrawableTraits* traits) override;
-
     virtual Acad::ErrorStatus subTransformBy(const AcGeMatrix3d& xform) override;
     virtual Acad::ErrorStatus subExplode(AcDbVoidPtrArray& entitySet) const override;
     
@@ -90,10 +95,10 @@ public:
 
 private:
 // Data Members
-    AcGePoint3d link_start;
-    AcGePoint3d link_end; // центр окружности
-    AcGeVector3d m_vecRad; // вектор радиуса
-    AcGeVector3d m_normal; // нормаль
-
+    AcGePoint3d m_link_start;
+    AcGePoint3d m_link_end;
 };
 
+#ifdef CROSSCIRCLE_MODULE
+ACDB_REGISTER_OBJECT_ENTRY_AUTO(AcDbCrossCircleLink);
+#endif

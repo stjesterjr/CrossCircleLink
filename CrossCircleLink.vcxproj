@@ -191,7 +191,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\..\NC_SDK_RU_24.0.6388.4326.7145\samples\NRX\CrossCircle\CrossCircle\AcDbCrossCircle.cpp" />
     <ClCompile Include="AcDbCrossCircleLink.cpp" />
     <ClCompile Include="CrossCircleLink.cpp" />
   </ItemGroup>
@@ -199,7 +198,6 @@
     <None Include="CrossCircleLink.def" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\NC_SDK_RU_24.0.6388.4326.7145\samples\NRX\CrossCircle\CrossCircle\AcDbCrossCircle.h" />
     <ClInclude Include="AcDbCrossCircleLink.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
